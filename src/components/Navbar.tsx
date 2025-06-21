@@ -7,13 +7,13 @@ const Navbar = () => {
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center space-x-4">
             <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-xl">M</span>
+              <span className="text-white font-bold text-xl">UL</span>
             </div>
             <div>
               <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-                MapMeasure
+                UkurLahanmu
               </h1>
-              <p className="text-sm text-gray-600">Interactive Area Measurement Tool</p>
+              <p className="text-sm text-gray-600">Tools Untuk Mengukur Area</p>
             </div>
           </div>
         </div>
