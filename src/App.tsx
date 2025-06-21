@@ -16,9 +16,17 @@ function App() {
     setCoordinates(newCoordinates);
   };
 
+  const [clearTrigger, setClearTrigger] = useState(0);
+
   const handleClearAreas = () => {
+    // Clear state dulu
     setArea(0);
     setCoordinates([]);
+    
+    // Trigger map clear
+    setClearTrigger(prev => prev + 1);
+    
+    console.log('All areas cleared - State reset and map cleared');
   };
 
   const handleDrawingModeChange = (mode: string) => {
@@ -76,6 +84,7 @@ function App() {
               onClearAreas={handleClearAreas}
               drawingMode={drawingMode}
               searchLocation={searchLocation}
+              clearTrigger={clearTrigger} 
             />
             
             {/* Drawing Tools - Bottom Left */}

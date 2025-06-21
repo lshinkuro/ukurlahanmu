@@ -20,13 +20,15 @@ interface MapComponentProps {
   onClearAreas: () => void;
   drawingMode: string;
   searchLocation?: { lat: number; lon: number; name: string } | null;
+  clearTrigger?: number; // tambahkan ini
 }
 
 const MapComponent: React.FC<MapComponentProps> = ({ 
   onAreaChange, 
   onClearAreas, 
   drawingMode, 
-  searchLocation 
+  searchLocation,
+  clearTrigger  
 }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<Map | null>(null);
@@ -150,6 +152,21 @@ const MapComponent: React.FC<MapComponentProps> = ({
     }
   }, [searchLocation]);
 
+  // Listen untuk clearTrigger
+  useEffect(() => {
+    if (clearTrigger && clearTrigger > 0) {
+      // Clear map dulu
+      vectorSourceRef.current.clear();
+      markerSourceRef.current.clear();
+      
+      if (drawRef.current) {
+        drawRef.current.abortDrawing();
+      }
+      
+      console.log('Map cleared');
+    }
+  }, [clearTrigger]);
+
   const handleFeatureAdd = (event: any) => {
     const feature = event.feature;
     calculateMeasurements(feature);
@@ -211,9 +228,19 @@ const MapComponent: React.FC<MapComponentProps> = ({
   }, [drawingMode]);
 
   const clearAreas = () => {
+    // Clear semua vector (polygon)
     vectorSourceRef.current.clear();
+    
+    // Clear semua marker
     markerSourceRef.current.clear();
-    onClearAreas();
+    
+    // Reset drawing interaction jika ada
+    if (drawRef.current) {
+      drawRef.current.abortDrawing();
+    }
+    
+    // JANGAN panggil onClearAreas() disini karena akan double call
+    // onClearAreas sudah dipanggil dari App.tsx
   };
 
   return (
